@@ -58,10 +58,10 @@ void hal_spi_init(void)
     // add your SPI configs below (based on reference manual)
     
     /// STUDENTS: To be programmed
-
-
-
-
+    SPI1->CR1 |= 0x00000300;        // set SSM and SSI == 1
+    SPI1->CR1 |= 0x00000038;        // set BR[2:0] to 111 (f_pclk/256)
+    SPI1->CR1 |= 0x00000004;        // set MSTR == 1 (master mode)
+    SPI1->CR1 |= 0x00000040;        // set SPE == 1 (enable SPI)
     /// END: To be programmed
     
     set_ss_pin_high();
@@ -73,10 +73,32 @@ void hal_spi_init(void)
 uint8_t hal_spi_read_write(uint8_t send_byte)
 {
     /// STUDENTS: To be programmed
+    //select BR[2:0] to defnie serial clock baud rate
+    
+    //set slave select pin low
+    set_ss_pin_low(); 
 
 
+      //write data to be transmitted to the SPI data register
+    SPI1->DR = send_byte; 
+    //wait until the transmit buffer is empty
+    while((SPI1->SR & BIT_TXE) == 0); 
 
+    
+    //wait until the busy flag is reset
+    while((SPI1->SR & BIT_RXNE) == 0); 
+    
+    uint8_t received = SPI1->DR;
+	
+	while((SPI1->SR & BIT_BSY) != 0){}
+		
+    set_ss_pin_high(); 
+    
+    wait_10_us();
 
+    //return the received data
+    return received; 
+    
     /// END: To be programmed
 }
 
