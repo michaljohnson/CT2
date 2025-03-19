@@ -72,27 +72,37 @@ void hal_spi_init(void)
 uint8_t hal_spi_read_write(uint8_t send_byte)
 {
     /// STUDENTS: To be programmed
-    // set SS pin low (activate)
+    // Set Slave to low to activate
     set_ss_pin_low();
 
-    // write data to be transmitted to the SPI data register
+    // Byte in das SPI-Datenregister schreiben
     SPI1->DR = send_byte;
-    // wait until the transmit buffer is empty
-    while ((SPI1->SR & BIT_TXE) == 0);
 
-    // wait until the busy flag is reset
-    while ((SPI1->SR & BIT_RXNE) == 0);
+    // Warten, bis das Transmit Buffer leer ist (TXE-Flag gesetzt)
+    while ((SPI1->SR & BIT_TXE) == 0)
+    {
+        // wait
+    }
 
-    uint8_t received = SPI1->DR;
+    // Warten, bis ein Byte empfangen wurde (RXNE-Flag gesetzt)
+    while ((SPI1->SR & BIT_RXNE) == 0)
+    {
+        // wait
+    }
 
-    while ((SPI1->SR & BIT_BSY) != 0);
+    // Von Register lesen
+    uint8_t received_byte = SPI1->DR;
 
-    //set SS pin high (deactivate)
-    set_ss_pin_high();
+    // Setzt das
+    while ((SPI1->SR & BIT_BSY) != 0)
+    {
+        // wait
+    }
 
     wait_10_us();
+    set_ss_pin_high();
 
-    return received;
+    return received_byte;
     /// END: To be programmed
 }
 
