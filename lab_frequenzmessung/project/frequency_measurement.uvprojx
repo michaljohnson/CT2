@@ -390,9 +390,9 @@
               <FilePath>.\app\main.c</FilePath>
             </File>
             <File>
-              <FileName>timer.c</FileName>
+              <FileName>timers_freq.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\app\timer.c</FilePath>
+              <FilePath>.\app\timers_freq.c</FilePath>
             </File>
           </Files>
         </Group>
