@@ -109,5 +109,40 @@ void fsm_handle_event(event_t event)
             state = F0_CLOSED;
         }
         break;
+    case F1_CLOSED:
+        // if (event == EV_DOOR1_OPEN_REQ)
+        // {
+        //     ah_door(DOOR_OPEN);
+        //     ah_show_state(TEXT_F1_OPENED);
+        //     state = F1_OPENED;
+        // }
+        break;
+    case F1_OPENED:
+        // if (event == EV_DOOR1_CLOSE_REQ)
+        // {
+        //     ah_door(DOOR_CLOSE);
+        //     ah_show_state(TEXT_F1_CLOSED);
+        //     state = F1_CLOSED;
+        // }
+        break;
+
+    case MOVING_UP:
+        // if (event == EV_ARRIVED)
+        // {
+        //     ah_motor(MOTOR_OFF);
+        //     ah_door(DOOR_OPEN);
+        //     ah_show_state(TEXT_F1_OPENED);
+        //     state = F1_OPENED;
+        // }
+        break;
+    case MOVING_DOWN:
+        // if (event == EV_ARRIVED)
+        // {
+        //     ah_motor(MOTOR_OFF);
+        //     ah_door(DOOR_OPEN);
+        //     ah_show_state(TEXT_F0_OPENED);
+        //     state = F0_OPENED;
+        // }
+        break;
     }
 }
