@@ -21,17 +21,23 @@
 #include "state_machine.h"
 #include "timer.h"
 
-
 /* -- M A I N
  * ------------------------------------------------------------------------- */
 
 int main(void)
 {
-    /// STUDENTS: To be programmed
+	event_t event;
+	/// STUDENTS: To be programmed
+	fsm_init();
+	timer_init();
+	while (1)
+	{
 
+		event = eh_get_event();
+		if (event != EV_NO_EVENT)
+		{
+			fsm_handle_event(event);
+		}
 
-
-
-    /// END: To be programmed
-}
-
+		/// END: To be programmed
+	}

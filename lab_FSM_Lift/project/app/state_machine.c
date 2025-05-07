@@ -52,6 +52,8 @@ typedef enum
     F1_CLOSED,
     MOVING_UP,
     MOVING_DOWN,
+    WAIT_UP,
+    WAIT_DOWN,
 
     /// STUDENTS: To be programmed
 
@@ -81,6 +83,7 @@ void fsm_init(void)
     /// STUDENTS: To be programmed
 
     ah_show_state(TEXT_F0_CLOSED);
+    state = F0_CLOSED;
 
     /// END: To be programmed
 }
@@ -99,6 +102,12 @@ void fsm_handle_event(event_t event)
             ah_show_state(TEXT_F0_OPENED);
             state = F0_OPENED;
         }
+        else if (event == EV_BUTTON_F1)
+        {
+            ah_door(DOOR_LOCK);
+            timer_start(SAFETY_DURATION); 
+            state = WAIT_UP;
+        }
         break;
 
     case F0_OPENED:
@@ -109,40 +118,67 @@ void fsm_handle_event(event_t event)
             state = F0_CLOSED;
         }
         break;
+
     case F1_CLOSED:
-        // if (event == EV_DOOR1_OPEN_REQ)
-        // {
-        //     ah_door(DOOR_OPEN);
-        //     ah_show_state(TEXT_F1_OPENED);
-        //     state = F1_OPENED;
-        // }
+        if (event == EV_DOOR1_OPEN_REQ)
+        {
+            ah_door(DOOR_OPEN);
+            ah_show_state(TEXT_F1_OPENED);
+            state = F1_OPENED;
+        }
+        else if (event == EV_BUTTON_F0)
+        {
+            ah_door(DOOR_LOCK);
+            timer_start(SAFETY_DURATION); 
+            state = WAIT_DOWN;
+        }
         break;
+
     case F1_OPENED:
-        // if (event == EV_DOOR1_CLOSE_REQ)
-        // {
-        //     ah_door(DOOR_CLOSE);
-        //     ah_show_state(TEXT_F1_CLOSED);
-        //     state = F1_CLOSED;
-        // }
+        if (event == EV_DOOR1_CLOSE_REQ)
+        {
+            ah_door(DOOR_CLOSE);
+            ah_show_state(TEXT_F1_CLOSED);
+            state = F1_CLOSED;
+        }
         break;
 
     case MOVING_UP:
-        // if (event == EV_ARRIVED)
-        // {
-        //     ah_motor(MOTOR_OFF);
-        //     ah_door(DOOR_OPEN);
-        //     ah_show_state(TEXT_F1_OPENED);
-        //     state = F1_OPENED;
-        // }
+        if (event == EV_F1_REACHED)
+        {
+            ah_motor(MOTOR_OFF);
+            ah_door(DOOR_UNLOCK);
+            ah_show_state(TEXT_F1_CLOSED);
+            state = F1_CLOSED;
+        }
         break;
+
     case MOVING_DOWN:
-        // if (event == EV_ARRIVED)
-        // {
-        //     ah_motor(MOTOR_OFF);
-        //     ah_door(DOOR_OPEN);
-        //     ah_show_state(TEXT_F0_OPENED);
-        //     state = F0_OPENED;
-        // }
+        if (event == EV_F0_REACHED)
+        {
+            ah_motor(MOTOR_OFF);
+            ah_door(DOOR_UNLOCK);
+            ah_show_state(TEXT_F0_CLOSED);
+            state = F0_CLOSED;
+        }
+        break;
+
+    case WAIT_UP:
+        if (event == EV_TIMEOUT)
+        {
+            ah_motor(MOTOR_UP); 
+            ah_show_state(TEXT_MOVING_UP);
+            state = MOVING_UP;
+        }
+        break;
+
+    case WAIT_DOWN:
+        if (event == EV_TIMEOUT)
+        {
+            ah_motor(MOTOR_DOWN); 
+            ah_show_state(TEXT_MOVING_DOWN);
+            state = MOVING_DOWN;
+        }
         break;
     }
 }
