@@ -10,7 +10,7 @@
       <TargetName>Target 1</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>6220000::V6.22::ARMCLANG</pCCUsed>
+      <pCCUsed>6180000::V6.18::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -49,7 +49,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\build\</OutputDirectory>
-          <OutputName>Lab</OutputName>
+          <OutputName>interrupt_latency</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -331,8 +331,8 @@
             <useXO>0</useXO>
             <v6Lang>3</v6Lang>
             <v6LangP>3</v6LangP>
-            <vShortEn>0</vShortEn>
-            <vShortWch>0</vShortWch>
+            <vShortEn>1</vShortEn>
+            <vShortWch>1</vShortWch>
             <v6Lto>0</v6Lto>
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
@@ -382,34 +382,17 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>Source Group 1</GroupName>
+          <GroupName>app</GroupName>
           <Files>
-            <File>
-              <FileName>action_handler.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\app\action_handler.c</FilePath>
-            </File>
-            <File>
-              <FileName>event_handler.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\app\event_handler.c</FilePath>
-            </File>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\app\main.c</FilePath>
             </File>
-            <File>
-              <FileName>state_machine.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\app\state_machine.c</FilePath>
-            </File>
-            <File>
-              <FileName>timer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\app\timer.c</FilePath>
-            </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS</GroupName>
         </Group>
         <Group>
           <GroupName>::Device</GroupName>
@@ -424,6 +407,12 @@
   <RTE>
     <apis/>
     <components>
+      <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="5.6.0" condition="ARMv6_7_8-M Device">
+        <package name="CMSIS" schemaVersion="1.7.7" url="http://www.keil.com/pack/" vendor="ARM" version="5.9.0"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </component>
       <component Cclass="Device" Cgroup="Startup" Cvendor="InES" Cversion="4.0.4" condition="SYSTEM_M0">
         <package name="CTBoard14_DFP" schemaVersion="1.1" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.4"/>
         <targetInfos>
@@ -468,7 +457,7 @@
       </component>
     </components>
     <files>
-      <file attr="config" category="source" name="Device\Source\datainit_ctboard.s" version="4.0.4">
+      <file attr="config" category="source" name="Device\Source\datainit_ctboard.s">
         <instance index="0">RTE\Device\CT_Board_HS14_M0\datainit_ctboard.s</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="InES" Cversion="4.0.4" condition="SYSTEM_M0"/>
         <package name="CTBoard14_DFP" schemaVersion="1.1" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.4"/>
@@ -476,7 +465,7 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" name="Device\Source\startup_ctboard.s" version="4.0.4">
+      <file attr="config" category="source" name="Device\Source\startup_ctboard.s">
         <instance index="0">RTE\Device\CT_Board_HS14_M0\startup_ctboard.s</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="InES" Cversion="4.0.4" condition="SYSTEM_M0"/>
         <package name="CTBoard14_DFP" schemaVersion="1.1" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.4"/>
@@ -484,7 +473,7 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" name="Device\Source\system_ctboard.c" version="4.0.4">
+      <file attr="config" category="source" name="Device\Source\system_ctboard.c">
         <instance index="0">RTE\Device\CT_Board_HS14_M0\system_ctboard.c</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="InES" Cversion="4.0.4" condition="SYSTEM_M0"/>
         <package name="CTBoard14_DFP" schemaVersion="1.1" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.4"/>
@@ -492,7 +481,7 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" name="HAL\Source\hal_ct_lcd.c" version="3.0.3">
+      <file attr="config" category="source" name="HAL\Source\hal_ct_lcd.c">
         <instance index="0">RTE\HAL\CT_Board_HS14_M0\hal_ct_lcd.c</instance>
         <component Cclass="HAL" Cgroup="CT Board" Csub="LCD" Cvendor="InES" Cversion="3.0.3" condition="HAL"/>
         <package name="CTBoard14_DFP" schemaVersion="1.1" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.4"/>
@@ -500,7 +489,7 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" name="HAL\Source\hal_fmc.c" version="4.0.4">
+      <file attr="config" category="source" name="HAL\Source\hal_fmc.c">
         <instance index="0">RTE\HAL\CT_Board_HS14_M0\hal_fmc.c</instance>
         <component Cclass="HAL" Cgroup="FMC" Cvendor="InES" Cversion="4.0.4" condition="HAL"/>
         <package name="CTBoard14_DFP" schemaVersion="1.1" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.4"/>
@@ -508,7 +497,7 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" name="HAL\Source\hal_gpio.c" version="4.0.4">
+      <file attr="config" category="source" name="HAL\Source\hal_gpio.c">
         <instance index="0">RTE\HAL\CT_Board_HS14_M0\hal_gpio.c</instance>
         <component Cclass="HAL" Cgroup="GPIO" Cvendor="InES" Cversion="4.0.4" condition="HAL"/>
         <package name="CTBoard14_DFP" schemaVersion="1.1" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.4"/>
@@ -516,7 +505,7 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" name="HAL\Source\hal_pwr.c" version="4.0.4">
+      <file attr="config" category="source" name="HAL\Source\hal_pwr.c">
         <instance index="0">RTE\HAL\CT_Board_HS14_M0\hal_pwr.c</instance>
         <component Cclass="HAL" Cgroup="PWR" Cvendor="InES" Cversion="4.0.4" condition="HAL"/>
         <package name="CTBoard14_DFP" schemaVersion="1.1" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.4"/>
@@ -524,7 +513,7 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" name="HAL\Source\hal_rcc.c" version="4.0.4">
+      <file attr="config" category="source" name="HAL\Source\hal_rcc.c">
         <instance index="0">RTE\HAL\CT_Board_HS14_M0\hal_rcc.c</instance>
         <component Cclass="HAL" Cgroup="RCC" Cvendor="InES" Cversion="4.0.4" condition="HAL"/>
         <package name="CTBoard14_DFP" schemaVersion="1.1" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.4"/>
@@ -532,7 +521,7 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" name="HAL\Source\hal_timer.c" version="4.0.4">
+      <file attr="config" category="source" name="HAL\Source\hal_timer.c">
         <instance index="0">RTE\HAL\CT_Board_HS14_M0\hal_timer.c</instance>
         <component Cclass="HAL" Cgroup="TIMER" Cvendor="InES" Cversion="4.0.4" condition="HAL"/>
         <package name="CTBoard14_DFP" schemaVersion="1.1" url="https://ennis.zhaw.ch/pack/" vendor="InES" version="4.0.4"/>
